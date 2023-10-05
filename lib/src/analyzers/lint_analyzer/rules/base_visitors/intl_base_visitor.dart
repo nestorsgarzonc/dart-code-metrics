@@ -33,12 +33,11 @@ abstract class IntlBaseVisitor extends GeneralizingAstVisitor<void> {
   @override
   void visitFieldDeclaration(FieldDeclaration node) {
     // ignore: deprecated_member_use
-    if (node.fields.type?.as<NamedType>()?.name.name != 'String') {
+    if (node.fields.type?.as<NamedType>()?.name2.value() != 'String') {
       return;
     }
 
-    final className =
-        node.parent?.as<NamedCompilationUnitMember>()?.name.lexeme;
+    final className = node.parent?.as<NamedCompilationUnitMember>()?.name.lexeme;
 
     _checkVariables(className, node.fields);
 
@@ -124,8 +123,7 @@ abstract class IntlBaseVisitor extends GeneralizingAstVisitor<void> {
   }
 
   MethodInvocation? _getMethodInvocation(FunctionBody body) {
-    final methodInvocation =
-        body.as<ExpressionFunctionBody>()?.expression.as<MethodInvocation>();
+    final methodInvocation = body.as<ExpressionFunctionBody>()?.expression.as<MethodInvocation>();
 
     return methodInvocation ??
         body
